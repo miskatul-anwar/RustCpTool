@@ -1,16 +1,15 @@
-use cliclack::input;
+use core::time;
+use std::thread::sleep;
+
+use cliclack::{confirm, progress_bar};
 
 fn main() {
-    let number: String = input("What is the meaning of life?")
-        .placeholder("Not sure")
-        .validate(|input: &String| {
-            if input.is_empty() {
-                Err("Value is required!")
-            } else {
-                Ok(())
-            }
-        })
-        .interact()
-        .unwrap();
-    println!("{number:?}");
+    let _should_continue = confirm("Do you want to continue?").interact();
+    let progress = progress_bar(100);
+    progress.start("Installation...");
+    for _ in 0..11 {
+        sleep(time::Duration::from_millis(1000));
+        progress.inc(1);
+    }
+    progress.stop("Installation Complete");
 }
